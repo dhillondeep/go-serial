@@ -34,7 +34,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <tchar.h>
-#include <setupapi.h>
+#include <SetupAPI.h>
 #include <cfgmgr32.h>
 #undef DEFINE_GUID
 #define DEFINE_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) \
