@@ -37,7 +37,7 @@ package serial
 /*
 #cgo CFLAGS: -g -O2 -DSP_PRIV= -DSP_API=
 #cgo darwin LDFLAGS: -framework IOKit -framework CoreFoundation
-#cgo windows LDFLAGS: -l SetupAPI
+#cgo windows LDFLAGS: -l setupapi
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -277,8 +277,6 @@ func (p *Port) free() {
 func durationToTime(deadline time.Time) time.Duration {
 	return deadline.Sub(time.Now())
 }
-
-
 
 // Print libserialport debug messages to stderr.
 func SetDebug(enable bool) {
@@ -974,7 +972,7 @@ func flow2c(fc int) (cfc C.enum_sp_flowcontrol, err error) {
 	return
 }
 
-func sp_blocking_write(p *Port, b []byte, timeout time.Duration)(n int, err error) {
+func sp_blocking_write(p *Port, b []byte, timeout time.Duration) (n int, err error) {
 	size := len(b)
 
 	cbuf := unsafe.Pointer(&b[0])
@@ -995,7 +993,7 @@ func sp_blocking_write(p *Port, b []byte, timeout time.Duration)(n int, err erro
 	return n, nil
 }
 
-func sp_nonblocking_write(p *Port, b []byte)(n int, err error) {
+func sp_nonblocking_write(p *Port, b []byte) (n int, err error) {
 	buf := unsafe.Pointer(&b[0])
 	size := C.size_t(len(b))
 	c := C.sp_nonblocking_write(p.p, buf, size)
@@ -1006,7 +1004,7 @@ func sp_nonblocking_write(p *Port, b []byte)(n int, err error) {
 	return n, nil
 }
 
-func sp_blocking_read(p *Port, b []byte, timeout time.Duration)(n int, err error) {
+func sp_blocking_read(p *Port, b []byte, timeout time.Duration) (n int, err error) {
 
 	size := len(b)
 
@@ -1028,7 +1026,7 @@ func sp_blocking_read(p *Port, b []byte, timeout time.Duration)(n int, err error
 	return n, nil
 }
 
-func sp_nonblocking_read(p *Port, b []byte)(n int, err error) {
+func sp_nonblocking_read(p *Port, b []byte) (n int, err error) {
 	buf := unsafe.Pointer(&b[0])
 	size := C.size_t(len(b))
 	c := C.sp_nonblocking_read(p.p, buf, size)
